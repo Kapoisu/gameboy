@@ -3,6 +3,7 @@
 
 #include "byte.h"
 #include "word.h"
+#include "flags.h"
 
 namespace gameboy {
     int make_address(byte high, byte low);
@@ -11,7 +12,7 @@ namespace gameboy {
     public:
         registers();
         byte accumulator; // used for small value calculation
-        byte flag;
+        flags flag;
         byte& general_b;
         byte& general_c;
         unsigned short& general_bc;
