@@ -6,6 +6,7 @@
 #include "registers.h"
 #include "memory.h"
 #include "byte.h"
+#include "alu.h"
 
 namespace gameboy {
     class cpu {
@@ -16,6 +17,7 @@ namespace gameboy {
         static constexpr auto CYCLES_PER_FRAME = 70244;
         registers _registers;
         memory& _memory;
+        alu _alu;
         int _cycle;
         std::unordered_map<byte, std::function<void()>> _instruction_map;
     };
