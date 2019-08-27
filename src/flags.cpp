@@ -1,11 +1,11 @@
 #include "flags.h"
 
 namespace gameboy {
-    std::map<flag_type, int> flags::_flag_map = {
-        {flag_type::ZERO, 7},
-        {flag_type::ADD_SUB, 6},
-        {flag_type::HALF_CARRY, 5},
-        {flag_type::CARRY, 4}
+    std::unordered_map<flag_type, int> flags::_flag_map = {
+        {flag_type::zero, 7},
+        {flag_type::subtract, 6},
+        {flag_type::half_carry, 5},
+        {flag_type::carry, 4}
     };
 
     flags::flags() = default;

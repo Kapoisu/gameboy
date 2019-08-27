@@ -2,15 +2,15 @@
 #define FLAGS_H
 
 #include <bitset>
-#include <map>
+#include <unordered_map>
 #include "byte.h"
 
 namespace gameboy {
     enum class flag_type {
-        ZERO,
-        ADD_SUB,
-        HALF_CARRY,
-        CARRY
+        zero,
+        subtract,
+        half_carry,
+        carry
     };
 
     class flags {
@@ -21,7 +21,7 @@ namespace gameboy {
         operator byte() const;
 
         template<flag_type T>
-        void set_flag(bool flag)
+        void set(bool flag)
         {
             _flags.set(_flag_map[T], flag);
         }
@@ -32,7 +32,7 @@ namespace gameboy {
             return _flags[_flag_map[T]];
         }
     private:
-        static std::map<flag_type, int> _flag_map;
+        static std::unordered_map<flag_type, int> _flag_map;
         std::bitset<8> _flags;
     };
 }
