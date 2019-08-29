@@ -16,7 +16,7 @@ namespace gameboy {
 
         // LD 00000010
         _instruction_map['\x02'] = [this, cycle = 8] {
-            auto address = _registers.general_bc;
+            const auto address = _registers.general_bc;
             _memory.set_byte(address, _registers.accumulator);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -29,7 +29,7 @@ namespace gameboy {
 
         // LD 00001010
         _instruction_map['\x0A'] = [this, cycle = 8] {
-            auto address = _registers.general_bc;
+            const auto address = _registers.general_bc;
             _registers.accumulator = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -49,7 +49,7 @@ namespace gameboy {
 
         // LD 00010010
         _instruction_map['\x12'] = [this, cycle = 8] {
-            auto address = _registers.general_de;
+            const auto address = _registers.general_de;
             _memory.set_byte(address, _registers.accumulator);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -62,7 +62,7 @@ namespace gameboy {
 
         // LD 00011010
         _instruction_map['\x1A'] = [this, cycle = 8] {
-            auto address = _registers.general_de;
+            const auto address = _registers.general_de;
             _registers.accumulator = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -82,7 +82,7 @@ namespace gameboy {
 
         // LDI 00100010
         _instruction_map['\x22'] = [this, cycle = 8] {
-            auto address = _registers.general_hl++;
+            const auto address = _registers.general_hl++;
             _memory.set_byte(address, _registers.accumulator);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -95,7 +95,7 @@ namespace gameboy {
 
         // LDI 00101010
         _instruction_map['\x2A'] = [this, cycle = 8] {
-            auto address = _registers.general_hl++;
+            const auto address = _registers.general_hl++;
             _registers.accumulator = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -108,29 +108,29 @@ namespace gameboy {
 
         // LD 00 11 0001 n n
         _instruction_map['\x31'] = [this, cycle = 12] {
-            auto low = _memory.get_byte(_registers.program_counter++);
-            auto high = _memory.get_byte(_registers.program_counter++);
+            const auto low = _memory.get_byte(_registers.program_counter++);
+            const auto high = _memory.get_byte(_registers.program_counter++);
             _registers.stack_pointer = word(low, high).value;
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LDD 00110010
         _instruction_map['\x32'] = [this, cycle = 8] {
-            auto address = _registers.general_hl--;
+            const auto address = _registers.general_hl--;
             _memory.set_byte(address, _registers.accumulator);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LD 00110110 n
         _instruction_map['\x36'] = [this, cycle = 12] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _memory.set_byte(address, _memory.get_byte(_registers.program_counter++));
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LDD 00111010
         _instruction_map['\x3A'] = [this, cycle = 8] {
-            auto address = _registers.general_hl--;
+            const auto address = _registers.general_hl--;
             _registers.accumulator = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -179,7 +179,7 @@ namespace gameboy {
 
         // LD 01 000 110
         _instruction_map['\x46'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _registers.general_b = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -228,7 +228,7 @@ namespace gameboy {
 
         // LD 01 001 110
         _instruction_map['\x4E'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _registers.general_c = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -277,7 +277,7 @@ namespace gameboy {
 
         // LD 01 010 110
         _instruction_map['\x56'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _registers.general_d = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -326,7 +326,7 @@ namespace gameboy {
 
         // LD 01 011 110
         _instruction_map['\x5E'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _registers.general_e = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -375,7 +375,7 @@ namespace gameboy {
 
         // LD 01 100 110
         _instruction_map['\x66'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _registers.general_h = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -424,7 +424,7 @@ namespace gameboy {
 
         // LD 01 101 110
         _instruction_map['\x6E'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _registers.general_l = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -437,49 +437,49 @@ namespace gameboy {
 
         // LD 01110 000
         _instruction_map['\x70'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _memory.set_byte(address, _registers.general_b);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LD 01110 001
         _instruction_map['\x71'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _memory.set_byte(address, _registers.general_c);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LD 01110 010
         _instruction_map['\x72'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _memory.set_byte(address, _registers.general_d);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LD 01110 011
         _instruction_map['\x73'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _memory.set_byte(address, _registers.general_e);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LD 01110 100
         _instruction_map['\x74'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _memory.set_byte(address, _registers.general_h);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LD 01110 101
         _instruction_map['\x75'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _memory.set_byte(address, _registers.general_l);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LD 01110 111
         _instruction_map['\x77'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _memory.set_byte(address, _registers.accumulator);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -522,7 +522,7 @@ namespace gameboy {
 
         // LD 01 111 110
         _instruction_map['\x7E'] = [this, cycle = 8] {
-            auto address = _registers.general_hl;
+            const auto address = _registers.general_hl;
             _registers.accumulator = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -563,7 +563,7 @@ namespace gameboy {
 
         // LD 11100000 n
         _instruction_map['\xE0'] = [this, cycle = 12] {
-            auto address = make_address('\xFF', _memory.get_byte(_registers.program_counter++));
+            const auto address = make_address('\xFF', _memory.get_byte(_registers.program_counter++));
             _memory.set_byte(address, _registers.accumulator);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -577,7 +577,7 @@ namespace gameboy {
 
         // LD 11100010
         _instruction_map['\xE2'] = [this, cycle = 8] {
-            auto address = make_address('\xFF', _registers.general_c);
+            const auto address = make_address('\xFF', _registers.general_c);
             _registers.accumulator = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -591,16 +591,16 @@ namespace gameboy {
 
         // LD 11101010 (nn)
         _instruction_map['\xEA'] = [this, cycle = 16] {
-            auto low = _memory.get_byte(_registers.program_counter++);
-            auto high = _memory.get_byte(_registers.program_counter++);
-            auto address = make_address(high, low);
+            const auto low = _memory.get_byte(_registers.program_counter++);
+            const auto high = _memory.get_byte(_registers.program_counter++);
+            const auto address = make_address(high, low);
             _memory.set_byte(address, _registers.accumulator);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
         // LD 11110000 n
         _instruction_map['\xF0'] = [this, cycle = 12] {
-            auto address = make_address('\xFF', _memory.get_byte(_registers.program_counter++));
+            const auto address = make_address('\xFF', _memory.get_byte(_registers.program_counter++));
             _registers.accumulator = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -614,7 +614,7 @@ namespace gameboy {
 
         // LD 11110010
         _instruction_map['\xF2'] = [this, cycle = 8] {
-            auto address = make_address('\xFF', _registers.general_c);
+            const auto address = make_address('\xFF', _registers.general_c);
             _memory.set_byte(address, _registers.accumulator);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -634,9 +634,9 @@ namespace gameboy {
 
         // LD 11111010 (nn)
         _instruction_map['\xFA'] = [this, cycle = 16] {
-            auto low = _memory.get_byte(_registers.program_counter++);
-            auto high = _memory.get_byte(_registers.program_counter++);
-            auto address = make_address(high, low);
+            const auto low = _memory.get_byte(_registers.program_counter++);
+            const auto high = _memory.get_byte(_registers.program_counter++);
+            const auto address = make_address(high, low);
             _registers.accumulator = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -644,7 +644,7 @@ namespace gameboy {
 
     void cpu::fetch()
     {
-        auto opcode = _memory.get_byte(_registers.program_counter++);
+        const auto opcode = _memory.get_byte(_registers.program_counter++);
 
         _instruction_map[opcode]();
     }

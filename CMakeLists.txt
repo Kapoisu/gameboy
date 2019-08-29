@@ -7,3 +7,4 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "-Wall -Wconversion")
 
 add_subdirectory(src)
+add_subdirectory(test)
