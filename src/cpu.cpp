@@ -533,6 +533,264 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // ADD 10000 000
+        _instruction_map['\x80'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_b);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADD 10000 001
+        _instruction_map['\x81'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_c);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADD 10000 010
+        _instruction_map['\x82'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_d);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADD 10000 011
+        _instruction_map['\x83'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_e);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADD 10000 100
+        _instruction_map['\x84'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_h);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADD 10000 101
+        _instruction_map['\x85'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_l);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADD 10000110
+        _instruction_map['\x86'] = [this, cycle = 8] {
+            auto output = _alu.add(_registers.accumulator, _memory.get_byte(_registers.general_hl));
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADD 10000 111
+        _instruction_map['\x87'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.accumulator);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADC 10001 000
+        _instruction_map['\x88'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_b, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADC 10001 001
+        _instruction_map['\x89'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_c, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADC 10001 010
+        _instruction_map['\x8A'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_d, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADC 10001 011
+        _instruction_map['\x8B'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_e, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADC 10001 100
+        _instruction_map['\x8C'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_h, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADC 10001 101
+        _instruction_map['\x8D'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.general_l, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADC 10001110
+        _instruction_map['\x8E'] = [this, cycle = 8] {
+            auto output = _alu.add(_registers.accumulator, _memory.get_byte(_registers.general_hl),
+                _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADC 10001 111
+        _instruction_map['\x8F'] = [this, cycle = 4] {
+            auto output = _alu.add(_registers.accumulator, _registers.accumulator, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SUB 10010 000
+        _instruction_map['\x90'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_b);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SUB 10010 001
+        _instruction_map['\x91'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_c);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SUB 10010 010
+        _instruction_map['\x92'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_d);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SUB 10010 011
+        _instruction_map['\x93'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_e);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SUB 10010 100
+        _instruction_map['\x94'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_h);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SUB 10010 101
+        _instruction_map['\x95'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_l);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SUB 10010110
+        _instruction_map['\x96'] = [this, cycle = 8] {
+            auto output = _alu.subtract(_registers.accumulator, _memory.get_byte(_registers.general_hl));
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SUB 10010 111
+        _instruction_map['\x97'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.accumulator);
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SBC 10011 000
+        _instruction_map['\x98'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_b, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SBC 10011 001
+        _instruction_map['\x99'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_c, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SBC 10011 010
+        _instruction_map['\x9A'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_d, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SBC 10011 011
+        _instruction_map['\x9B'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_e, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SBC 10011 100
+        _instruction_map['\x9C'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_h, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SBC 10011 101
+        _instruction_map['\x9D'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.general_l, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SBC 10011110
+        _instruction_map['\x9E'] = [this, cycle = 8] {
+            auto output = _alu.subtract(_registers.accumulator, _memory.get_byte(_registers.general_hl),
+                _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SBC 10011 111
+        _instruction_map['\x9F'] = [this, cycle = 4] {
+            auto output = _alu.subtract(_registers.accumulator, _registers.accumulator, _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // POP 11 00 0001
         _instruction_map['\xC1'] = [this, cycle = 12] {
             _registers.general_c = _memory.get_byte(_registers.stack_pointer++);
@@ -547,6 +805,23 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // ADD 11000110
+        _instruction_map['\xC6'] = [this, cycle = 8] {
+            auto output = _alu.add(_registers.accumulator, _memory.get_byte(_registers.program_counter++));
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADC 11001110
+        _instruction_map['\xCE'] = [this, cycle = 8] {
+            auto output = _alu.add(_registers.accumulator, _memory.get_byte(_registers.program_counter++),
+                _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // POP 11 01 0001
         _instruction_map['\xD1'] = [this, cycle = 12] {
             _registers.general_e = _memory.get_byte(_registers.stack_pointer++);
@@ -558,6 +833,23 @@ namespace gameboy {
         _instruction_map['\xD5'] = [this, cycle = 16] {
             _memory.set_byte(--_registers.stack_pointer, _registers.general_d);
             _memory.set_byte(--_registers.stack_pointer, _registers.general_e);
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SUB 11010110
+        _instruction_map['\xD6'] = [this, cycle = 8] {
+            auto output = _alu.subtract(_registers.accumulator, _memory.get_byte(_registers.program_counter++));
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // SBC 11011110
+        _instruction_map['\xDE'] = [this, cycle = 8] {
+            auto output = _alu.subtract(_registers.accumulator, _memory.get_byte(_registers.program_counter++),
+                _registers.flag.is_set<flag_type::carry>());
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 

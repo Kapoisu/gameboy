@@ -24,10 +24,10 @@ namespace gameboy {
         };
 
         template<typename T>
-        output<T> add(T operand1, T operand2) const;
+        output<T> add(T operand1, T operand2, bool carry = false) const;
 
         template<typename T>
-        output<T> subtract(T operand1, T operand2) const;
+        output<T> subtract(T operand1, T operand2, bool carry = false) const;
     };
 }
 
