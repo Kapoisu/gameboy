@@ -14,6 +14,7 @@ namespace gameboy {
             {
             }
             T value;
+        private:
             int value_with_promotion;
         };
     public:
@@ -28,6 +29,10 @@ namespace gameboy {
 
         template<typename T>
         output<T> subtract(T operand1, T operand2, bool carry = false) const;
+
+        output<byte> and_byte(byte operand1, byte operand2) const;
+        output<byte> xor_byte(byte operand1, byte operand2) const;
+        output<byte> or_byte(byte operand1, byte operand2) const;
     };
 }
 

@@ -39,6 +39,42 @@ namespace gameboy {
         return output;
     }
 
+    alu::output<byte> alu::and_byte(byte operand1, byte operand2) const
+    {
+        integer_result<byte> result{operand1 & operand2};
+        output<byte> output{result.value};
+        output.status.set<flag_type::zero>(result.value == 0);
+        output.status.set<flag_type::subtract>(false);
+        output.status.set<flag_type::half_carry>(true);
+        output.status.set<flag_type::carry>(false);
+
+        return output;
+    }
+
+    alu::output<byte> alu::xor_byte(byte operand1, byte operand2) const
+    {
+        integer_result<byte> result{operand1 ^ operand2};
+        output<byte> output{result.value};
+        output.status.set<flag_type::zero>(result.value == 0);
+        output.status.set<flag_type::subtract>(false);
+        output.status.set<flag_type::half_carry>(false);
+        output.status.set<flag_type::carry>(false);
+
+        return output;
+    }
+
+    alu::output<byte> alu::or_byte(byte operand1, byte operand2) const
+    {
+        integer_result<byte> result{operand1 | operand2};
+        output<byte> output{result.value};
+        output.status.set<flag_type::zero>(result.value == 0);
+        output.status.set<flag_type::subtract>(false);
+        output.status.set<flag_type::half_carry>(false);
+        output.status.set<flag_type::carry>(false);
+
+        return output;
+    }
+
     template alu::output<byte> alu::add(byte, byte, bool) const;
     template alu::output<signed char> alu::add(signed char, signed char, bool) const;
     template alu::output<unsigned short> alu::add(unsigned short, unsigned short, bool) const;
