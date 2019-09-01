@@ -8,14 +8,10 @@ namespace gameboy {
         constexpr auto full_mask = (1 << (sizeof(T) * 8)) - 1;
         integer_result<T> result{operand1 + operand2};
         output<T> output{result.value};
-        output.status.template
-        set<flag_type::zero>(result.value == 0);
-        output.status.template
-        set<flag_type::subtract>(false);
-        output.status.template
-        set<flag_type::half_carry>((operand1 & half_mask) + (operand2 & half_mask) + carry > half_mask);
-        output.status.template
-        set<flag_type::carry>((operand1 & full_mask) + (operand2 & full_mask) + carry > full_mask);
+        output.status[flag_type::zero] = result.value == 0;
+        output.status[flag_type::subtract] = false;
+        output.status[flag_type::half_carry] = (operand1 & half_mask) + (operand2 & half_mask) + carry > half_mask;
+        output.status[flag_type::carry] = (operand1 & full_mask) + (operand2 & full_mask) + carry > full_mask;
 
         return output;
     }
@@ -27,14 +23,10 @@ namespace gameboy {
         constexpr auto full_mask = (1 << (sizeof(T) * 8)) - 1;
         integer_result<T> result{operand1 - operand2};
         output<T> output{result.value};
-        output.status.template
-        set<flag_type::zero>(result.value == 0);
-        output.status.template
-        set<flag_type::subtract>(true);
-        output.status.template
-        set<flag_type::half_carry>((operand1 & half_mask) - (operand2 & half_mask) - carry < 0);
-        output.status.template
-        set<flag_type::carry>((operand1 & full_mask) - (operand2 & full_mask) - carry < 0);
+        output.status[flag_type::zero] = result.value == 0;
+        output.status[flag_type::subtract] = true;
+        output.status[flag_type::half_carry] = (operand1 & half_mask) - (operand2 & half_mask) - carry < 0;
+        output.status[flag_type::carry] = (operand1 & full_mask) - (operand2 & full_mask) - carry < 0;
 
         return output;
     }
@@ -43,10 +35,10 @@ namespace gameboy {
     {
         integer_result<byte> result{operand1 & operand2};
         output<byte> output{result.value};
-        output.status.set<flag_type::zero>(result.value == 0);
-        output.status.set<flag_type::subtract>(false);
-        output.status.set<flag_type::half_carry>(true);
-        output.status.set<flag_type::carry>(false);
+        output.status[flag_type::zero] = result.value == 0;
+        output.status[flag_type::subtract] = false;
+        output.status[flag_type::half_carry] = true;
+        output.status[flag_type::carry] = false;
 
         return output;
     }
@@ -55,10 +47,10 @@ namespace gameboy {
     {
         integer_result<byte> result{operand1 ^ operand2};
         output<byte> output{result.value};
-        output.status.set<flag_type::zero>(result.value == 0);
-        output.status.set<flag_type::subtract>(false);
-        output.status.set<flag_type::half_carry>(false);
-        output.status.set<flag_type::carry>(false);
+        output.status[flag_type::zero] = result.value == 0;
+        output.status[flag_type::subtract] = false;
+        output.status[flag_type::half_carry] = false;
+        output.status[flag_type::carry] = false;
 
         return output;
     }
@@ -67,10 +59,10 @@ namespace gameboy {
     {
         integer_result<byte> result{operand1 | operand2};
         output<byte> output{result.value};
-        output.status.set<flag_type::zero>(result.value == 0);
-        output.status.set<flag_type::subtract>(false);
-        output.status.set<flag_type::half_carry>(false);
-        output.status.set<flag_type::carry>(false);
+        output.status[flag_type::zero] = result.value == 0;
+        output.status[flag_type::subtract] = false;
+        output.status[flag_type::half_carry] = false;
+        output.status[flag_type::carry] = false;
 
         return output;
     }

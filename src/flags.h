@@ -18,18 +18,28 @@ namespace gameboy {
         flags();
         explicit flags(byte value);
         flags& operator=(byte value);
+        bool operator[](flag_type type) const;
+        std::bitset<8>::reference operator[](flag_type type);
         operator byte() const;
 
-        template<flag_type T>
-        void set(bool flag)
+        template<bool Z, bool N, bool H, bool C>
+        void assign(const flags& value)
         {
-            _flags.set(_flag_map[T], flag);
-        }
+            if (Z) {
+                _flags.set(_flag_map[flag_type::zero], value[flag_type::zero]);
+            }
 
-        template<flag_type T>
-        bool is_set() const
-        {
-            return _flags[_flag_map[T]];
+            if (N) {
+                _flags.set(_flag_map[flag_type::subtract], value[flag_type::subtract]);
+            }
+
+            if (H) {
+                _flags.set(_flag_map[flag_type::half_carry], value[flag_type::half_carry]);
+            }
+
+            if (C) {
+                _flags.set(_flag_map[flag_type::carry], value[flag_type::carry]);
+            }
         }
     private:
         static std::unordered_map<flag_type, int> _flag_map;

@@ -20,6 +20,16 @@ namespace gameboy {
         return *this;
     }
 
+    bool flags::operator[](flag_type type) const
+    {
+        return _flags[_flag_map[type]];
+    }
+
+    std::bitset<8>::reference flags::operator[](flag_type type)
+    {
+        return _flags[_flag_map[type]];
+    }
+
     flags::operator byte() const
     {
         return static_cast<byte>(_flags.to_ulong());

@@ -3,7 +3,6 @@
 #include <chrono>
 #include <future>
 #include <iostream>
-#include <iomanip>
 #include <limits>
 #include <typeinfo>
 
@@ -11,21 +10,21 @@ namespace gameboy {
     template<typename T>
     bool alu_test::test_addition() const
     {
-        constexpr auto min = std::numeric_limits<T>::min() + 0;
-        constexpr auto max = std::numeric_limits<T>::max() + 1;
+        constexpr auto lower_bound = std::numeric_limits<T>::min() + 0;
+        constexpr auto upper_bound = std::numeric_limits<T>::max() + 1;
 
         auto failed = 0;
-        for (auto i = min; i < max; ++i) {
-            for (auto j = i; j < max; ++j) {
+        for (auto i = lower_bound; i < upper_bound; ++i) {
+            for (auto j = i; j < upper_bound; ++j) {
                 const auto op1 = static_cast<T>(i), op2 = static_cast<T>(j);
                 const auto output1 = _alu.add(op1, op2);
                 const auto output2 = static_cast<T>(op1 + op2);
                 const auto value_failed = output1.result != output2;
-                const auto zf_failed = output1.status.template is_set<flag_type::zero>() ^ (output2 == 0);
-                const auto nf_failed = output1.status.template is_set<flag_type::subtract>() ^ false;
-                const auto hf_failed = output1.status.template is_set<flag_type::half_carry>()
+                const auto zf_failed = output1.status[flag_type::zero] ^ (output2 == 0);
+                const auto nf_failed = output1.status[flag_type::subtract] ^ false;
+                const auto hf_failed = output1.status[flag_type::half_carry]
                     ^ std::bitset<sizeof(T) * 8>(op1 ^ op2 ^ output2)[sizeof(T) * 8 / 2];
-                const auto cf_failed = output1.status.template is_set<flag_type::carry>()
+                const auto cf_failed = output1.status[flag_type::carry]
                     ^ std::bitset<sizeof(T) * 8 + 1>(op1 ^ op2 ^ (op1 + op2))[sizeof(T) * 8];
                 failed += value_failed || zf_failed || nf_failed || hf_failed || cf_failed;
             }
@@ -39,21 +38,21 @@ namespace gameboy {
     template<typename T>
     bool alu_test::test_subtraction() const
     {
-        constexpr auto max = std::numeric_limits<T>::max() + 1;
-        constexpr auto min = std::numeric_limits<T>::min() + 0;
+        constexpr auto lower_bound = std::numeric_limits<T>::min() + 0;
+        constexpr auto upper_bound = std::numeric_limits<T>::max() + 1;
 
         auto failed = 0;
-        for (auto i = min; i < max; ++i) {
-            for (auto j = i; j < max; ++j) {
+        for (auto i = lower_bound; i < upper_bound; ++i) {
+            for (auto j = i; j < upper_bound; ++j) {
                 const auto op1 = static_cast<T>(i), op2 = static_cast<T>(j);
                 const auto output1 = _alu.subtract(op1, op2);
                 const auto output2 = static_cast<T>(op1 - op2);
                 const auto value_failed = output1.result != output2;
-                const auto zf_failed = output1.status.template is_set<flag_type::zero>() ^ (output2 == 0);
-                const auto nf_failed = output1.status.template is_set<flag_type::subtract>() ^ true;
-                const auto hf_failed = output1.status.template is_set<flag_type::half_carry>()
+                const auto zf_failed = output1.status[flag_type::zero] ^ (output2 == 0);
+                const auto nf_failed = output1.status[flag_type::subtract] ^ true;
+                const auto hf_failed = output1.status[flag_type::half_carry]
                     ^ std::bitset<sizeof(T) * 8>(op1 ^ op2 ^ output2)[sizeof(T) * 8 / 2];
-                const auto cf_failed = output1.status.template is_set<flag_type::carry>()
+                const auto cf_failed = output1.status[flag_type::carry]
                     ^ std::bitset<sizeof(T) * 8 + 1>(op1 ^ op2 ^ (op1 - op2))[sizeof(T) * 8];
                 failed += value_failed || zf_failed || nf_failed || hf_failed || cf_failed;
             }

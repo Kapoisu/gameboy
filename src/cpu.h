@@ -12,7 +12,7 @@ namespace gameboy {
     class cpu {
     public:
         cpu(memory& mem);
-        void fetch();
+        void fetch_and_execute();
     private:
         static constexpr auto CYCLES_PER_FRAME = 70244;
         registers _registers;

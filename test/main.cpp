@@ -1,5 +1,8 @@
+#include <algorithm>
 #include <chrono>
 #include <iostream>
+#include <limits>
+#include <random>
 #include <thread>
 #include <unordered_map>
 #include "alu-test.h"
@@ -12,6 +15,15 @@ int main()
 
     std::unordered_map<bool, int> result;
     memory test_memory;
+    std::random_device seed;
+    std::default_random_engine generator{seed()};
+    constexpr auto lower_bound = std::numeric_limits<unsigned short>::min() + 0;
+    constexpr auto upper_bound = std::numeric_limits<unsigned short>::max() + 1;
+    std::uniform_int_distribution<int> distribution{lower_bound, upper_bound};
+    for (auto address = lower_bound; address < upper_bound; ++address) {
+        test_memory.set_byte(address, static_cast<byte>(distribution(generator)));
+    }
+
     alu_test test_alu;
     cpu_test test_cpu{test_memory};
 
