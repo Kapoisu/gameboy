@@ -20,9 +20,15 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // INC 00 00 0011
+        _instruction_map['\x03'] = [this, cycle = 8] {
+            ++_registers.general_bc;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // INC 00 000 100
         _instruction_map['\x04'] = [this, cycle = 4] {
-            const auto output = _alu.add(_registers.general_b, {1});
+            const auto output = _alu.add(_registers.general_b, 1);
             _registers.general_b = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -30,7 +36,7 @@ namespace gameboy {
 
         // DEC 00 000 101
         _instruction_map['\x05'] = [this, cycle = 4] {
-            const auto output = _alu.subtract(_registers.general_b, {1});
+            const auto output = _alu.subtract(_registers.general_b, 1);
             _registers.general_b = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -48,9 +54,15 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // DEC 00 00 1011
+        _instruction_map['\x0B'] = [this, cycle = 8] {
+            --_registers.general_bc;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // INC 00 001 100
         _instruction_map['\x0C'] = [this, cycle = 4] {
-            const auto output = _alu.add(_registers.general_c, {1});
+            const auto output = _alu.add(_registers.general_c, 1);
             _registers.general_c = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -58,7 +70,7 @@ namespace gameboy {
 
         // DEC 00 001 101
         _instruction_map['\x0D'] = [this, cycle = 4] {
-            const auto output = _alu.subtract(_registers.general_c, {1});
+            const auto output = _alu.subtract(_registers.general_c, 1);
             _registers.general_c = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -83,9 +95,15 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // INC 00 01 0011
+        _instruction_map['\x13'] = [this, cycle = 8] {
+            ++_registers.general_de;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // INC 00 010 100
         _instruction_map['\x14'] = [this, cycle = 4] {
-            const auto output = _alu.add(_registers.general_d, {1});
+            const auto output = _alu.add(_registers.general_d, 1);
             _registers.general_d = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -93,7 +111,7 @@ namespace gameboy {
 
         // DEC 00 010 101
         _instruction_map['\x15'] = [this, cycle = 4] {
-            const auto output = _alu.subtract(_registers.general_d, {1});
+            const auto output = _alu.subtract(_registers.general_d, 1);
             _registers.general_d = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -111,9 +129,15 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // DEC 00 01 1011
+        _instruction_map['\x1B'] = [this, cycle = 8] {
+            --_registers.general_de;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // INC 00 011 100
         _instruction_map['\x1C'] = [this, cycle = 4] {
-            const auto output = _alu.add(_registers.general_e, {1});
+            const auto output = _alu.add(_registers.general_e, 1);
             _registers.general_e = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -121,7 +145,7 @@ namespace gameboy {
 
         // DEC 00 011 101
         _instruction_map['\x1D'] = [this, cycle = 4] {
-            const auto output = _alu.subtract(_registers.general_e, {1});
+            const auto output = _alu.subtract(_registers.general_e, 1);
             _registers.general_e = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -146,9 +170,15 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // INC 00 10 0011
+        _instruction_map['\x23'] = [this, cycle = 8] {
+            ++_registers.general_hl;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // INC 00 100 100
         _instruction_map['\x24'] = [this, cycle = 4] {
-            const auto output = _alu.add(_registers.general_h, {1});
+            const auto output = _alu.add(_registers.general_h, 1);
             _registers.general_h = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -156,7 +186,7 @@ namespace gameboy {
 
         // DEC 00 100 101
         _instruction_map['\x25'] = [this, cycle = 4] {
-            const auto output = _alu.subtract(_registers.general_h, {1});
+            const auto output = _alu.subtract(_registers.general_h, 1);
             _registers.general_h = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -182,9 +212,15 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // DEC 00 10 1011
+        _instruction_map['\x2B'] = [this, cycle = 8] {
+            --_registers.general_hl;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // INC 00 101 100
         _instruction_map['\x2C'] = [this, cycle = 4] {
-            const auto output = _alu.add(_registers.general_l, {1});
+            const auto output = _alu.add(_registers.general_l, 1);
             _registers.general_l = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -192,7 +228,7 @@ namespace gameboy {
 
         // DEC 00 101 101
         _instruction_map['\x2D'] = [this, cycle = 4] {
-            const auto output = _alu.subtract(_registers.general_l, {1});
+            const auto output = _alu.subtract(_registers.general_l, 1);
             _registers.general_l = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -201,6 +237,15 @@ namespace gameboy {
         // LD 00 101 110 n
         _instruction_map['\x2E'] = [this, cycle = 8] {
             _registers.general_l = _memory.get_byte(_registers.program_counter++);
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // CPL 00101111
+        _instruction_map['\x2F'] = [this, cycle = 4] {
+            const auto output = _alu.xor_byte(_registers.accumulator, {0xFF});
+            _registers.accumulator = output.result;
+            _registers.flag[flag_type::subtract] = true;
+            _registers.flag[flag_type::half_carry] = true;
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
@@ -218,9 +263,15 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // INC 00 11 0011
+        _instruction_map['\x33'] = [this, cycle = 8] {
+            ++_registers.stack_pointer;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // INC 00 110 100
         _instruction_map['\x34'] = [this, cycle = 12] {
-            const auto output = _alu.add(_memory.get_byte(_registers.general_hl), {1});
+            const auto output = _alu.add(_memory.get_byte(_registers.general_hl), 1);
             _memory.set_byte(_registers.general_hl, output.result);
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -228,7 +279,7 @@ namespace gameboy {
 
         // DEC 00 110 101
         _instruction_map['\x35'] = [this, cycle = 12] {
-            const auto output = _alu.subtract(_memory.get_byte(_registers.general_hl), {1});
+            const auto output = _alu.subtract(_memory.get_byte(_registers.general_hl), 1);
             _memory.set_byte(_registers.general_hl, output.result);
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -246,9 +297,15 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // DEC 00 11 1011
+        _instruction_map['\x3B'] = [this, cycle = 8] {
+            --_registers.stack_pointer;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // INC 00 111 100
         _instruction_map['\x3C'] = [this, cycle = 4] {
-            const auto output = _alu.add(_registers.accumulator, {1});
+            const auto output = _alu.add(_registers.accumulator, 1);
             _registers.accumulator = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -256,7 +313,7 @@ namespace gameboy {
 
         // DEC 00 111 101
         _instruction_map['\x3D'] = [this, cycle = 4] {
-            const auto output = _alu.subtract(_registers.accumulator, {1});
+            const auto output = _alu.subtract(_registers.accumulator, 1);
             _registers.accumulator = output.result;
             _registers.flag.assign<true, true, true, false>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
@@ -1269,7 +1326,7 @@ namespace gameboy {
 
         // LD 11110000 n
         _instruction_map['\xF0'] = [this, cycle = 12] {
-            const auto address = make_address('\xFF', _memory.get_byte(_registers.program_counter++));
+            const auto address = 0xFF00 + _memory.get_byte(_registers.program_counter++);
             _registers.accumulator = _memory.get_byte(address);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
@@ -1283,7 +1340,7 @@ namespace gameboy {
 
         // LD 11110010
         _instruction_map['\xF2'] = [this, cycle = 8] {
-            const auto address = make_address('\xFF', _registers.general_c);
+            const auto address = 0xFF00 + _registers.general_c;
             _memory.set_byte(address, _registers.accumulator);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };

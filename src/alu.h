@@ -23,11 +23,35 @@ namespace gameboy {
             flags status;
         };
 
-        template<typename T>
-        output<T> add(T operand1, T operand2, bool carry = false) const;
+        template<typename T, typename U>
+        output<T> add(T operand1, U operand2, bool carry = false) const
+        {
+            constexpr auto half_mask = (1 << (sizeof(T) * 8 / 2)) - 1;
+            constexpr auto full_mask = (1 << (sizeof(T) * 8)) - 1;
+            integer_result<T> result{operand1 + operand2};
+            output<T> output{result.value};
+            output.status[flag_type::zero] = result.value == 0;
+            output.status[flag_type::subtract] = false;
+            output.status[flag_type::half_carry] = (operand1 & half_mask) + (operand2 & half_mask) + carry > half_mask;
+            output.status[flag_type::carry] = (operand1 & full_mask) + (operand2 & full_mask) + carry > full_mask;
 
-        template<typename T>
-        output<T> subtract(T operand1, T operand2, bool carry = false) const;
+            return output;
+        }
+
+        template<typename T, typename U>
+        output<T> subtract(T operand1, U operand2, bool carry = false) const
+        {
+            constexpr auto half_mask = (1 << (sizeof(T) * 8 / 2)) - 1;
+            constexpr auto full_mask = (1 << (sizeof(T) * 8)) - 1;
+            integer_result<T> result{operand1 - operand2};
+            output<T> output{result.value};
+            output.status[flag_type::zero] = result.value == 0;
+            output.status[flag_type::subtract] = true;
+            output.status[flag_type::half_carry] = (operand1 & half_mask) - (operand2 & half_mask) - carry < 0;
+            output.status[flag_type::carry] = (operand1 & full_mask) - (operand2 & full_mask) - carry < 0;
+
+            return output;
+        }
 
         output<byte> and_byte(byte operand1, byte operand2) const;
         output<byte> xor_byte(byte operand1, byte operand2) const;
