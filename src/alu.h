@@ -1,7 +1,6 @@
 #ifndef ALU_H
 #define ALU_H
 
-#include <limits>
 #include "flags.h"
 
 namespace gameboy {
@@ -33,6 +32,8 @@ namespace gameboy {
         output<byte> and_byte(byte operand1, byte operand2) const;
         output<byte> xor_byte(byte operand1, byte operand2) const;
         output<byte> or_byte(byte operand1, byte operand2) const;
+
+        output<byte> daa(byte number, const flags& flag) const;
     };
 }
 

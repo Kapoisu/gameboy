@@ -31,6 +31,7 @@ int main()
     ++result[test_alu.test_addition<signed char>()];
     ++result[test_alu.test_subtraction<byte>()];
     ++result[test_alu.test_subtraction<signed char>()];
+    ++result[test_alu.test_daa()];
 #ifdef TIME_CONSUMING
     ++result[test_alu.test_addition<unsigned short>()];
     ++result[test_alu.test_addition<short>()];

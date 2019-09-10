@@ -67,6 +67,33 @@ namespace gameboy {
         return output;
     }
 
+    alu::output<byte> alu::daa(byte number, const flags& flag) const
+    {
+        auto adjustment = 0;
+        bool has_carry = false;
+
+        if (flag[flag_type::half_carry] || number % 16 > 0x09) {
+            adjustment += 0x06;
+        }
+
+        if (flag[flag_type::carry] || number > 0x99) {
+            adjustment += 0x60;
+            has_carry = true;
+        }
+
+        if (flag[flag_type::subtract]) {
+            adjustment = 0 - adjustment;
+        }
+
+        integer_result<byte> result{number + adjustment};
+        output<byte> output{result.value};
+        output.status[flag_type::zero] = result.value == 0;
+        output.status[flag_type::half_carry] = false;
+        output.status[flag_type::carry] = has_carry;
+
+        return output;
+    }
+
     template alu::output<byte> alu::add(byte, byte, bool) const;
     template alu::output<signed char> alu::add(signed char, signed char, bool) const;
     template alu::output<unsigned short> alu::add(unsigned short, unsigned short, bool) const;

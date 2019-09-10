@@ -170,6 +170,9 @@ namespace gameboy {
 
         // DAA 00100111
         _instruction_map['\x27'] = [this, cycle = 4] {
+            const auto output = _alu.daa(_registers.accumulator, _registers.flag);
+            _registers.accumulator = output.result;
+            _registers.flag.assign<true, false, true, true>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 

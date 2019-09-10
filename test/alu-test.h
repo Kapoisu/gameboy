@@ -10,6 +10,8 @@ namespace gameboy {
         bool test_addition() const;
         template<typename T>
         bool test_subtraction() const;
+
+        bool test_daa() const;
     private:
         gameboy::alu _alu;
     };
