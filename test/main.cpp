@@ -27,16 +27,18 @@ int main()
     alu_test test_alu;
     cpu_test test_cpu{test_memory};
 
-    ++result[test_alu.test_addition<byte>()];
-    ++result[test_alu.test_addition<signed char>()];
-    ++result[test_alu.test_subtraction<byte>()];
-    ++result[test_alu.test_subtraction<signed char>()];
+    ++result[test_alu.test_addition<byte, byte>()];
+    ++result[test_alu.test_addition<byte, sbyte>()];
+    ++result[test_alu.test_addition<sbyte, sbyte>()];
+    ++result[test_alu.test_subtraction<byte, byte>()];
+    ++result[test_alu.test_subtraction<byte, sbyte>()];
+    ++result[test_alu.test_subtraction<sbyte, sbyte>()];
     ++result[test_alu.test_daa()];
 #ifdef TIME_CONSUMING
-    ++result[test_alu.test_addition<unsigned short>()];
-    ++result[test_alu.test_addition<short>()];
-    ++result[test_alu.test_subtraction<unsigned short>()];
-    ++result[test_alu.test_subtraction<short>()];
+    ++result[test_alu.test_addition<unsigned short, unsigned short>()];
+    ++result[test_alu.test_addition<short, short>()];
+    ++result[test_alu.test_subtraction<unsigned short, unsigned short>()];
+    ++result[test_alu.test_subtraction<short, short>()];
 #endif
 
     std::cout << "Test count: " << result[true] + result[false] << std::endl;

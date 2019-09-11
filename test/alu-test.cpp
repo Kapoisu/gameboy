@@ -7,7 +7,7 @@
 #include <typeinfo>
 
 namespace gameboy {
-    template<typename T>
+    template<typename T, typename U>
     bool alu_test::test_addition() const
     {
         constexpr auto lower_bound = std::numeric_limits<T>::min() + 0;
@@ -16,14 +16,14 @@ namespace gameboy {
         auto failed = 0;
         for (auto i = lower_bound; i < upper_bound; ++i) {
             for (auto j = i; j < upper_bound; ++j) {
-                const auto op1 = static_cast<T>(i), op2 = static_cast<T>(j);
+                const auto op1 = static_cast<T>(i), op2 = static_cast<U>(j);
                 const auto output1 = _alu.add(op1, op2);
                 const auto output2 = static_cast<T>(op1 + op2);
                 const auto value_failed = output1.result != output2;
                 const bool zf_failed = output1.status[flag_type::zero] ^ (output2 == 0);
                 const bool nf_failed = output1.status[flag_type::subtract] ^ false;
                 const bool hf_failed = output1.status[flag_type::half_carry]
-                    ^ std::bitset<sizeof(T) * 8>(op1 ^ op2 ^ output2)[sizeof(T) * 8 / 2];
+                    ^ std::bitset<sizeof(T) * 8>(op1 ^ op2 ^ output2)[sizeof(T) * 8 - 4];
                 const bool cf_failed = output1.status[flag_type::carry]
                     ^ std::bitset<sizeof(T) * 8 + 1>(op1 ^ op2 ^ (op1 + op2))[sizeof(T) * 8];
                 failed += value_failed || zf_failed || nf_failed || hf_failed || cf_failed;
@@ -35,7 +35,7 @@ namespace gameboy {
         return failed == 0;
     }
 
-    template<typename T>
+    template<typename T, typename U>
     bool alu_test::test_subtraction() const
     {
         constexpr auto lower_bound = std::numeric_limits<T>::min() + 0;
@@ -44,14 +44,14 @@ namespace gameboy {
         auto failed = 0;
         for (auto i = lower_bound; i < upper_bound; ++i) {
             for (auto j = i; j < upper_bound; ++j) {
-                const auto op1 = static_cast<T>(i), op2 = static_cast<T>(j);
+                const auto op1 = static_cast<T>(i), op2 = static_cast<U>(j);
                 const auto output1 = _alu.subtract(op1, op2);
                 const auto output2 = static_cast<T>(op1 - op2);
                 const auto value_failed = output1.result != output2;
                 const bool zf_failed = output1.status[flag_type::zero] ^ (output2 == 0);
                 const bool nf_failed = output1.status[flag_type::subtract] ^ true;
                 const bool hf_failed = output1.status[flag_type::half_carry]
-                    ^ std::bitset<sizeof(T) * 8>(op1 ^ op2 ^ output2)[sizeof(T) * 8 / 2];
+                    ^ std::bitset<sizeof(T) * 8>(op1 ^ op2 ^ output2)[sizeof(T) * 8 - 4];
                 const bool cf_failed = output1.status[flag_type::carry]
                     ^ std::bitset<sizeof(T) * 8 + 1>(op1 ^ op2 ^ (op1 - op2))[sizeof(T) * 8];
                 failed += value_failed || zf_failed || nf_failed || hf_failed || cf_failed;
@@ -104,12 +104,14 @@ namespace gameboy {
         return failed == 0;
     }
 
-    template bool alu_test::test_addition<byte>() const;
-    template bool alu_test::test_addition<signed char>() const;
-    template bool alu_test::test_addition<unsigned short>() const;
-    template bool alu_test::test_addition<short>() const;
-    template bool alu_test::test_subtraction<byte>() const;
-    template bool alu_test::test_subtraction<signed char>() const;
-    template bool alu_test::test_subtraction<unsigned short>() const;
-    template bool alu_test::test_subtraction<short>() const;
+    template bool alu_test::test_addition<byte, byte>() const;
+    template bool alu_test::test_addition<byte, sbyte>() const;
+    template bool alu_test::test_addition<sbyte, sbyte>() const;
+    template bool alu_test::test_addition<unsigned short, unsigned short>() const;
+    template bool alu_test::test_addition<short, short>() const;
+    template bool alu_test::test_subtraction<byte, byte>() const;
+    template bool alu_test::test_subtraction<byte, sbyte>() const;
+    template bool alu_test::test_subtraction<sbyte, sbyte>() const;
+    template bool alu_test::test_subtraction<unsigned short, unsigned short>() const;
+    template bool alu_test::test_subtraction<short, short>() const;
 }

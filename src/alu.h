@@ -26,7 +26,7 @@ namespace gameboy {
         template<typename T, typename U>
         output<T> add(T operand1, U operand2, bool carry = false) const
         {
-            constexpr auto half_mask = (1 << (sizeof(T) * 8 / 2)) - 1;
+            constexpr auto half_mask = (1 << (sizeof(T) * 8 - 4)) - 1;
             constexpr auto full_mask = (1 << (sizeof(T) * 8)) - 1;
             integer_result<T> result{operand1 + operand2};
             output<T> output{result.value};
@@ -41,7 +41,7 @@ namespace gameboy {
         template<typename T, typename U>
         output<T> subtract(T operand1, U operand2, bool carry = false) const
         {
-            constexpr auto half_mask = (1 << (sizeof(T) * 8 / 2)) - 1;
+            constexpr auto half_mask = (1 << (sizeof(T) * 8 - 4)) - 1;
             constexpr auto full_mask = (1 << (sizeof(T) * 8)) - 1;
             integer_result<T> result{operand1 - operand2};
             output<T> output{result.value};

@@ -6,9 +6,9 @@
 namespace gameboy {
     class alu_test {
     public:
-        template<typename T>
+        template<typename T, typename U>
         bool test_addition() const;
-        template<typename T>
+        template<typename T, typename U>
         bool test_subtraction() const;
 
         bool test_daa() const;

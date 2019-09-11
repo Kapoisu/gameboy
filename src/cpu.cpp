@@ -48,6 +48,14 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // ADD 00 00 1001
+        _instruction_map['\x09'] = [this, cycle = 8] {
+            const auto output = _alu.add(_registers.general_hl, _registers.general_bc);
+            _registers.general_hl = output.result;
+            _registers.flag.assign<false, true, true, true>(output.status);
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // LD 00001010
         _instruction_map['\x0A'] = [this, cycle = 8] {
             _registers.accumulator = _memory.get_byte(_registers.general_bc);
@@ -120,6 +128,14 @@ namespace gameboy {
         // LD 00 010 110 n
         _instruction_map['\x16'] = [this, cycle = 8] {
             _registers.general_d = _memory.get_byte(_registers.program_counter++);
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADD 00 01 1001
+        _instruction_map['\x19'] = [this, cycle = 8] {
+            const auto output = _alu.add(_registers.general_hl, _registers.general_de);
+            _registers.general_hl = output.result;
+            _registers.flag.assign<false, true, true, true>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
@@ -206,6 +222,14 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // ADD 00 10 1001
+        _instruction_map['\x29'] = [this, cycle = 8] {
+            const auto output = _alu.add(_registers.general_hl, _registers.general_hl);
+            _registers.general_hl = output.result;
+            _registers.flag.assign<false, true, true, true>(output.status);
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // LDI 00101010
         _instruction_map['\x2A'] = [this, cycle = 8] {
             _registers.accumulator = _memory.get_byte(_registers.general_hl++);
@@ -288,6 +312,14 @@ namespace gameboy {
         // LD 00110110 n
         _instruction_map['\x36'] = [this, cycle = 12] {
             _memory.set_byte(_registers.general_hl, _memory.get_byte(_registers.program_counter++));
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // ADD 00 11 1001
+        _instruction_map['\x39'] = [this, cycle = 8] {
+            const auto output = _alu.add(_registers.general_hl, _registers.stack_pointer);
+            _registers.general_hl = output.result;
+            _registers.flag.assign<false, true, true, true>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
@@ -1307,6 +1339,16 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // ADD 11101000
+        _instruction_map['\xE8'] = [this, cycle = 16] {
+            const sbyte offset = _memory.get_byte(_registers.program_counter++);
+            const auto output = _alu.add(_registers.stack_pointer, offset);
+            _registers.stack_pointer = output.result;
+            _registers.flag[flag_type::zero] = false;
+            _registers.flag[flag_type::subtract] = false;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // LD 11101010 (nn)
         _instruction_map['\xEA'] = [this, cycle = 16] {
             const auto low = _memory.get_byte(_registers.program_counter++);
@@ -1357,6 +1399,16 @@ namespace gameboy {
             const auto output = _alu.or_byte(_registers.accumulator, _memory.get_byte(_registers.program_counter++));
             _registers.accumulator = output.result;
             _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
+        // LD 11111000
+        _instruction_map['\xF8'] = [this, cycle = 12] {
+            const sbyte offset = _memory.get_byte(_registers.program_counter++);
+            const auto output = _alu.add(_registers.stack_pointer, offset);
+            _registers.general_hl = output.result;
+            _registers.flag[flag_type::zero] = false;
+            _registers.flag[flag_type::subtract] = false;
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
