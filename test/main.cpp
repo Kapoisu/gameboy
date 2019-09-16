@@ -33,6 +33,8 @@ int main()
     ++result[test_alu.test_subtraction<byte, byte>()];
     ++result[test_alu.test_subtraction<byte, sbyte>()];
     ++result[test_alu.test_subtraction<sbyte, sbyte>()];
+    ++result[test_alu.test_shift_left<byte>()];
+    ++result[test_alu.test_shift_left<unsigned short>()];
     ++result[test_alu.test_daa()];
 #ifdef TIME_CONSUMING
     ++result[test_alu.test_addition<unsigned short, unsigned short>()];

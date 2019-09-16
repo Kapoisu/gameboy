@@ -10,6 +10,8 @@ namespace gameboy {
         bool test_addition() const;
         template<typename T, typename U>
         bool test_subtraction() const;
+        template<typename T>
+        bool test_shift_left() const;
 
         bool test_daa() const;
     private:
