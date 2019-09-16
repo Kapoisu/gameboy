@@ -48,6 +48,14 @@ namespace gameboy {
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
+        // RLCA 00000111
+        _instruction_map['\x07'] = [this, cycle = 4] {
+            const auto output = _alu.rotate_left(_registers.accumulator, {1});
+            _registers.accumulator = output.result;
+            _registers.flag = output.status;
+            _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
+        };
+
         // ADD 00 00 1001
         _instruction_map['\x09'] = [this, cycle = 8] {
             const auto output = _alu.add(_registers.general_hl, _registers.general_bc);
@@ -1345,7 +1353,7 @@ namespace gameboy {
             const auto output = _alu.add(_registers.stack_pointer, offset);
             _registers.stack_pointer = output.result;
             _registers.flag[flag_type::zero] = false;
-            _registers.flag[flag_type::subtract] = false;
+            _registers.flag.assign<false, true, true, true>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
@@ -1408,7 +1416,7 @@ namespace gameboy {
             const auto output = _alu.add(_registers.stack_pointer, offset);
             _registers.general_hl = output.result;
             _registers.flag[flag_type::zero] = false;
-            _registers.flag[flag_type::subtract] = false;
+            _registers.flag.assign<false, true, true, true>(output.status);
             _cycle = (_cycle + cycle) % CYCLES_PER_FRAME;
         };
 
