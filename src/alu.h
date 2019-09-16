@@ -53,10 +53,25 @@ namespace gameboy {
             return output;
         }
 
+        template<typename T>
+        output<T> rotate_left(T operand1, T operand2) const
+        {
+            constexpr auto full_mask = 1 << (sizeof(T) * 8 - 1);
+            integer_result<T> result{operand1 << operand2 | operand1 >> (sizeof(T) * 8 - operand2)};
+            output<T> output{result.value};
+            output.status[flag_type::zero] = false;
+            output.status[flag_type::subtract] = false;
+            output.status[flag_type::half_carry] = false;
+            output.status[flag_type::carry] = (operand1 & full_mask) != 0;
+
+            return output;
+        }
+
         output<byte> and_byte(byte operand1, byte operand2) const;
         output<byte> xor_byte(byte operand1, byte operand2) const;
         output<byte> or_byte(byte operand1, byte operand2) const;
 
+        // decimal adjustment
         output<byte> daa(byte number, const flags& flag) const;
     };
 }
